@@ -1,0 +1,96 @@
+<app-loading></app-loading>
+<ng-template #loading>
+    <div class="loading" *ngIf="!error">
+        <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+    </div>
+</ng-template>
+<ng-container *ngIf="!error">
+    <h1>Stats</h1>
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Income from Event by Jobs</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="eventtypes$ | async as eventtypes; else loading">
+                <mat-form-field appearance="outline">
+                    <mat-label>Event type</mat-label>
+                    <mat-select [(ngModel)]="eventtypeId" (selectionChange)="setIncomeFromEventByJobs()">
+                        <mat-option *ngFor="let eventtype of eventtypes" [value]="eventtype.id">{{eventtype.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <ng-container *ngIf="eventtypeId">
+                    <ng-container *ngIf="incomeFromEventByJobs$ | async as incomeFromEventByJobs; else loading">
+                        <app-income-from-event-by-jobs [incomeFromJobs]="incomeFromEventByJobs"></app-income-from-event-by-jobs>
+                        <h2 *ngIf="incomeFromEventByJobs.length == 0">There are no Jobs for {{eventtypes[eventtypeId - 1].name}}</h2>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Orders count by Job</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="jobs$ | async as jobs; else loading">
+                <mat-form-field appearance="outline">
+                    <mat-label>Job</mat-label>
+                    <mat-select [(ngModel)]="jobId" (selectionChange)="setOrdersCountByJob()">
+                        <mat-option *ngFor="let job of jobs" [value]="job.id">{{job.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <ng-container *ngIf="jobId">
+                    <ng-container *ngIf="ordersCountByJob$ | async as ordersCountByJob; else loading">
+                        <app-orders-count-by-job [ordersCount]="ordersCountByJob"></app-orders-count-by-job>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="setMostPopularFixedWageEmployees()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Most popular Fixed Wage Employees</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="mostPopularFixedWageEmployees$ | async as mostPopularFixedWageEmployees; else loading">
+                <app-most-popular-fixed-wage-employees [employeeOrdersCounts]="mostPopularFixedWageEmployees"></app-most-popular-fixed-wage-employees>
+            </ng-container>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Income from Fixed Wage Orders in year</mat-panel-title>
+            </mat-expansion-panel-header>
+            <form [formGroup]="incomeFromFixedWageOrdersForm" (ngSubmit)="setIncomeFromFixedWageOrdersInYear()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Year</mat-label>
+                    <input matInput type="number" formControlName="year">
+                </mat-form-field>
+                <button mat-raised-button color="primary">Search</button>
+            </form>
+            <mat-list>
+                <mat-list-item>{{(incomeFromFixedWageOrders$ | async)}} Ft</mat-list-item>
+            </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="setHourlyWageEmployeesAverageHours()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Hourly Wage Employees average hours</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="hourlyWageEmployeesAverageHours$ | async as hourlyWageEmployeesAverageHours; else loading">
+                <app-hourly-wage-employees-average-hours [employeesAverageHours]="hourlyWageEmployeesAverageHours"></app-hourly-wage-employees-average-hours>
+            </ng-container>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="setHourlyWageOrdersOverview()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Hourly Wage Orders overview</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="hourlyWageOrdersOverview$ | async as hourlyWageOrdersOverview; else loading">
+                <app-hourly-wage-orders-overview [incomeFromOrders]="hourlyWageOrdersOverview"></app-hourly-wage-orders-overview>
+            </ng-container>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="setOverallOverview()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Overall overview</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="overallOverview$ | async as overallOverview; else loading">
+                <app-overall-overview [overview]="overallOverview"></app-overall-overview>
+            </ng-container>
+        </mat-expansion-panel>
+    </mat-accordion>
+</ng-container>
+<router-outlet></router-outlet>

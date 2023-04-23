@@ -1,1 +1,102 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-sidenav-content>mat-toolbar+* {
+    background-color: red;
+} 
+
+.loading {
+    position: fixed;
+    top: 0;
+    left: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 9999
+}
+
+mat-form-field,
+form > button {
+    width: 22rem;
+    margin-top: 1.1rem
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+h1,
+h2 {
+    text-align: center
+}
+
+app-eventtype-list,
+app-job-list,
+app-fixed-wage-employee-list,
+app-fixed-wage-order-list,
+app-hourly-wage-employee-list,
+app-hourly-wage-order-list,
+app-eventtype-single,
+app-job-single,
+app-fixed-wage-employee-single,
+app-fixed-wage-order-single,
+app-hourly-wage-employee-single,
+app-hourly-wage-order-single {
+    overflow: auto;
+    display: block;
+    max-height: 80vh;
+}
+
+app-order,
+app-stats {
+    display: block;
+    overflow: auto;
+    max-height: 90vh;
+}
+
+mat-expansion-panel {
+    margin-top: 1.1rem !important;
+    width: 25rem
+}
+
+mat-expansion-panel button {
+    width: 22rem;
+}
+
+mat-expansion-panel .mat-expansion-panel-body {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+.add-new {
+    width: 100%;
+    border: 1px solid gray !important
+}
+
+.mat-dialog-container {
+    padding: 0 !important
+}
+
+table .even {
+    background-color: thistle;
+}
+
+table .odd {
+    background-color: lightgoldenrodyellow;
+}

@@ -1,0 +1,13 @@
+<app-loading [deleting]="deleting"></app-loading>
+<ng-template #loading>
+    <div class="loading" *ngIf="!error">
+        <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+    </div>
+</ng-template>
+<div *ngIf="!error && (items$ | async) as items; else loading">
+    <h1>Fixed Wage Employees</h1>
+    <h2 *ngIf="items.length == 0">There are no Fixed Wage Employees</h2>
+    <a mat-raised-button routerLink="add-new" class="add-new">Add new</a>
+    <app-fixed-wage-employee-list *ngIf="items.length > 0" [items$]="items$" (deleteItem)="deleteItem($event)"></app-fixed-wage-employee-list>
+</div>
+<router-outlet></router-outlet>

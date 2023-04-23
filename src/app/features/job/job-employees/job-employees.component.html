@@ -1,0 +1,81 @@
+<app-loading></app-loading>
+<ng-template #loading>
+    <div class="loading" *ngIf="!error">
+        <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+    </div>
+</ng-template>
+<ng-container *ngIf="!error && (item$ | async) as item; else loading">
+    <h1>Employees working as {{item.name}}</h1>
+    <mat-tab-group>
+        <mat-tab label="Fixed Wage Employees">
+            <table *ngIf="item.fixedWageEmployees.length > 0" mat-table [dataSource]="item.fixedWageEmployees" class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Id</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.id}}</td>
+                </ng-container>
+                <ng-container matColumnDef="hireDate">
+                    <th mat-header-cell *matHeaderCellDef>Hire Date</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.hireDate | date: 'YYYY-MM-dd hh:mm'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef>First Name</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.firstName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.lastName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="emailAddress">
+                    <th mat-header-cell *matHeaderCellDef>Email Address</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.emailAddress}}</td>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.phoneNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="details">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let employee"><a mat-raised-button color="primary" routerLink="../../../fixed-wage-employees/{{employee.id}}">Details</a></td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns; let even = even; let odd = odd" [ngClass]="{even: even, odd: odd}"></tr>
+            </table>
+            <h2 *ngIf="item.fixedWageEmployees.length == 0">There are no Fixed Wage Employees working as {{item.name}}</h2>
+        </mat-tab>
+        <mat-tab label="Hourly Wage Employees">
+            <table *ngIf="item.hourlyWageEmployees.length > 0" mat-table [dataSource]="item.hourlyWageEmployees" class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Id</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.id}}</td>
+                </ng-container>
+                <ng-container matColumnDef="hireDate">
+                    <th mat-header-cell *matHeaderCellDef>Hire Date</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.hireDate | date: 'YYYY-MM-dd hh:mm'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef>First Name</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.firstName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.lastName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="emailAddress">
+                    <th mat-header-cell *matHeaderCellDef>Email Address</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.emailAddress}}</td>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+                    <td mat-cell *matCellDef="let employee">{{employee.phoneNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="details">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let employee"><a mat-raised-button color="primary" routerLink="../../../hourly-wage-employees/{{employee.id}}">Details</a></td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns; let even = even; let odd = odd" [ngClass]="{even: even, odd: odd}"></tr>
+            </table>
+            <h2 *ngIf="item.hourlyWageEmployees.length == 0">There are no Hourly Wage Employees working as {{item.name}}</h2>
+        </mat-tab>
+    </mat-tab-group>
+</ng-container>

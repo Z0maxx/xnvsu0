@@ -1,0 +1,4 @@
+<span *ngIf="data.type == 'failure'" style="color: lightcoral">{{data.message}}</span>
+<span *ngIf="data.type == 'success'" style="color: lightgreen">{{data.message}}</span>
+<span *ngIf="data.type == 'alert'" style="color: lightgoldenrodyellow">{{data.message}}</span>
+<button mat-button matSnackBarAction (click)="snackBarRef.dismiss()">DISCARD</button>

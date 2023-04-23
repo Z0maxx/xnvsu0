@@ -1,0 +1,75 @@
+<app-loading [updating]="updating"></app-loading>>
+<ng-template #loading>
+    <div class="loading" *ngIf="!error">
+        <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+    </div>
+</ng-template>
+<ng-container *ngIf="!error && oldItem; else loading">
+    <h1>Update Hourly Wage Order</h1>
+    <form [formGroup]="updateForm" (ngSubmit)="updateItem()">
+        <mat-form-field>
+            <mat-label>Id</mat-label>
+            <input matInput formControlName="id">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Order Date: {{oldItem.orderDate | date: 'YYYY-MM-dd hh:mm'}}</mat-label>
+            <input matInput [ngxMatDatetimePickerFilter]="orderDateFilter" [ngxMatDatetimePicker]="orderDate" placeholder="New Order Date" formControlName="orderDate" [min]="minDate">
+            <mat-datepicker-toggle matSuffix [for]="$any(orderDate)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #orderDate [defaultTime]="[minDate.getHours(), minDate.getMinutes(), minDate.getSeconds(), minDate.getFullYear() + 5]" [showSpinners]="true" [showSeconds]="false" [stepHour]="1" [stepMinute]="15" [stepSecond]="0" [touchUi]="true">
+            </ngx-mat-datetime-picker>
+            <mat-error *ngIf="updateForm.get('orderDate')?.hasError('minhour') || updateForm.get('orderDate')?.hasError('maxhour')">Order Date hours must be between 08:00 and 22:00</mat-error>
+            <mat-error *ngIf="
+            updateForm.get('orderDate')?.hasError('minutes') &&
+            !(updateForm.get('orderDate')?.hasError('minhour') ||
+            updateForm.get('orderDate')?.hasError('maxhour'))">Order Date minutes must to be 0, 15, 30 or 45</mat-error>
+            <mat-error *ngIf="
+            updateForm.get('orderDate')?.hasError('seconds') &&
+            !(updateForm.get('orderDate')?.hasError('minhour') ||
+            updateForm.get('orderDate')?.hasError('maxhour') ||
+            updateForm.get('orderDate')?.hasError('minutes'))
+            ">Order Date seconds must to be 0</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>First Name: {{oldItem.firstName}}</mat-label>
+            <input matInput formControlName="firstName" placeholder="New First Name">
+            <mat-error *ngIf="updateForm.get('firstName')?.hasError('minlength') || updateForm.get('name')?.hasError('maxlength')">First Name must be between 2 and 30 characters</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Last Name: {{oldItem.lastName}}</mat-label>
+            <input matInput formControlName="lastName" placeholder="New Last Name">
+            <mat-error *ngIf="updateForm.get('lastName')?.hasError('minlength') || updateForm.get('name')?.hasError('maxlength')">Last Name must be between 2 and 30 characters</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="employee" appearance="outline">
+            <mat-label *ngIf="employee.minHours <= oldItem.hours && employee.maxHours >= oldItem.hours">Work Hours: {{oldItem.hours}}</mat-label>
+            <mat-label *ngIf="employee.minHours > oldItem.hours || employee.maxHours < oldItem.hours">Current Work Hours is not valid</mat-label>
+            <input type="number" matInput formControlName="hours" placeholder="New Work Hours: {{employee.minHours}} - {{employee.maxHours}}">
+            <mat-error *ngIf="updateForm.get('hours')?.hasError('min') || updateForm.get('hours')?.hasError('max')">Work Hours must be between {{employee.minHours}} and {{employee.maxHours}}</mat-error>
+            <mat-error *ngIf="updateForm.get('hours')?.hasError('required')">Work Hours is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label *ngIf="oldItem.emailAddress">Email Address: {{oldItem.emailAddress}}</mat-label>
+            <mat-label *ngIf="!oldItem.emailAddress">No Current Email Address</mat-label>
+            <input matInput formControlName="emailAddress" placeholder="New Email Address">
+            <mat-error *ngIf="updateForm.get('emailAddress')?.hasError('email')">Email Address is not valid</mat-error>
+            <mat-error *ngIf="
+            (updateForm.get('emailAddress')?.hasError('minlength') ||
+            updateForm.get('emailAddress')?.hasError('maxlength')) &&
+            !updateForm.get('emailAddress')?.hasError('email')">Email Address must be between 10 and 50 characters</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label *ngIf="oldItem.phoneNumber">Phone Number: {{oldItem.phoneNumber}}</mat-label>
+            <mat-label *ngIf="!oldItem.phoneNumber">No Current Phone Number</mat-label>
+            <input matInput formControlName="phoneNumber" placeholder="New Phone Number">
+        </mat-form-field>
+        <mat-form-field *ngIf="employees$ | async as employees; else loading" appearance="outline">
+            <mat-label *ngIf="oldItem.employee">Employee: {{oldItem.employee.firstName}} {{oldItem.employee.lastName}}</mat-label>
+            <mat-label *ngIf="!oldItem.employee">No Current Employee</mat-label>
+            <mat-select formControlName="employeeId" placeholder="New Employee">
+                <mat-option>Clear</mat-option>
+                <mat-option *ngFor="let employee of employees" value="{{employee.id}}">{{employee.firstName}} {{employee.lastName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="updateForm.get('eventTypeId')?.hasError('required')">Job is required</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="updateForm.invalid">Update</button>
+    </form>
+</ng-container>

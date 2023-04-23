@@ -1,0 +1,18 @@
+<app-loading [creating]="creating"></app-loading>
+<ng-container *ngIf="!error">
+    <h1>Create {{modelName}}</h1>
+    <form [formGroup]="createForm" (ngSubmit)="createItem()">
+        <mat-form-field appearance="outline">
+            <mat-label>Id (not required)</mat-label>
+            <input matInput formControlName="id">
+            <mat-error *ngIf="createForm.get('id')?.hasError('min')">Id starts at 1</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+            <mat-error *ngIf="createForm.get('name')?.hasError('minlength') || createForm.get('name')?.hasError('maxlength')">Name must be between 3 and 30 characters</mat-error>
+            <mat-error *ngIf="createForm.get('name')?.hasError('required')">Name is required</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="createForm.invalid">Create</button>
+    </form>
+</ng-container>

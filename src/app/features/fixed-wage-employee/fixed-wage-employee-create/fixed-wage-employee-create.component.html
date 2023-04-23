@@ -1,0 +1,61 @@
+<app-loading [creating]="creating"></app-loading>
+<ng-template #loading>
+    <div class="loading" *ngIf="!error">
+        <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+    </div>
+</ng-template>
+<ng-container *ngIf="!error && (jobs$ | async) as jobs; else loading">
+    <h1>Create Fixed Wage Employee</h1>
+    <form [formGroup]="createForm" (ngSubmit)="createItem()">
+        <mat-form-field appearance="outline">
+            <mat-label>Id (not required)</mat-label>
+            <input matInput formControlName="id">
+            <mat-error *ngIf="createForm.get('id')?.hasError('min')">Id starts at 1</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName">
+            <mat-error *ngIf="createForm.get('firstName')?.hasError('minlength') || createForm.get('name')?.hasError('maxlength')">First Name must be between 2 and 30 characters</mat-error>
+            <mat-error *ngIf="createForm.get('firstName')?.hasError('required')">First Name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName">
+            <mat-error *ngIf="createForm.get('lastName')?.hasError('minlength') || createForm.get('name')?.hasError('maxlength')">Last Name must be between 2 and 30 characters</mat-error>
+            <mat-error *ngIf="createForm.get('lastName')?.hasError('required')">Last Name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Job</mat-label>
+            <mat-select formControlName="jobId">
+                <mat-option *ngFor="let job of jobs" value="{{job.id}}">{{job.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="createForm.get('jobId')?.hasError('required')">Job is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Wage</mat-label>
+            <input type="number" matInput formControlName="wage">
+            <mat-error *ngIf="createForm.get('wage')?.hasError('min') || createForm.get('wage')?.hasError('max')">Wage must be between 1000 and 99999</mat-error>
+            <mat-error *ngIf="createForm.get('wage')?.hasError('required')">Wage is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Hours</mat-label>
+            <input type="number" matInput formControlName="hours">
+            <mat-error *ngIf="createForm.get('hours')?.hasError('min') || createForm.get('hours')?.hasError('max')">Work Hours must be between 1 and 12</mat-error>
+            <mat-error *ngIf="createForm.get('hours')?.hasError('required')">Hours is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email Address (not required)</mat-label>
+            <input matInput formControlName="emailAddress">
+            <mat-error *ngIf="createForm.get('emailAddress')?.hasError('email')">Email Address is not valid</mat-error>
+            <mat-error *ngIf="
+            (createForm.get('emailAddress')?.hasError('minlength') ||
+            createForm.get('emailAddress')?.hasError('maxlength')) &&
+            !createForm.get('emailAddress')?.hasError('email')">Email Address must be between 10 and 50 characters</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Phone Number (not required)</mat-label>
+            <input matInput formControlName="phoneNumber">
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="createForm.invalid">Create</button>
+    </form>
+</ng-container>

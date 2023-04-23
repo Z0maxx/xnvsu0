@@ -1,0 +1,13 @@
+<table *ngIf="employeeOrdersCounts.length > 0" mat-table [dataSource]="employeeOrdersCounts" class="mat-elevation-z8">
+    <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef>Employee Name</th>
+        <td mat-cell *matCellDef="let employeeOrdersCount">{{employeeOrdersCount.employeeName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="ordersCount">
+        <th mat-header-cell *matHeaderCellDef>Number of Orders</th>
+        <td mat-cell *matCellDef="let employeeOrdersCount">{{employeeOrdersCount.ordersCount}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let even = even; let odd = odd" [ngClass]="{even: even, odd: odd}"></tr>
+</table>
+<h2 *ngIf="employeeOrdersCounts.length == 0">There are no Orders for Fixed Wage Employees</h2>

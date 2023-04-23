@@ -1,0 +1,7 @@
+mat-progress-bar {
+    position: absolute;
+    bottom: 1em;
+    left: 0;
+    z-index: 2;
+    --mdc-linear-progress-active-indicator-color:  limegreen;
+}

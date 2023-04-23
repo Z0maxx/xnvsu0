@@ -1,0 +1,13 @@
+<table *ngIf="employeesAverageHours.length > 0" mat-table [dataSource]="employeesAverageHours" class="mat-elevation-z8">
+    <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef>Employee Name</th>
+        <td mat-cell *matCellDef="let employeeAverageHour">{{employeeAverageHour.employeeName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="averageHours">
+        <th mat-header-cell *matHeaderCellDef>Average hours / Order</th>
+        <td mat-cell *matCellDef="let employeeAverageHour">{{employeeAverageHour.averageHours}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let even = even; let odd = odd" [ngClass]="{even: even, odd: odd}"></tr>
+</table>
+<h2 *ngIf="employeesAverageHours.length == 0">There are no Orders for Hourly Wage Employees</h2>

@@ -1,0 +1,24 @@
+<app-loading></app-loading>
+<ng-template #loading>
+    <div class="loading" *ngIf="!error">
+        <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+    </div>
+</ng-template>
+<div class="loading" *ngIf="updating">
+    <mat-spinner diameter="60" strokeWidth="10" color="accent"></mat-spinner>
+</div>
+<ng-container *ngIf="!error && oldItem; else loading">
+    <h1>Update Job</h1>
+    <form [formGroup]="updateForm" (ngSubmit)="updateItem()">
+        <mat-form-field>
+            <mat-label>Id</mat-label>
+            <input matInput formControlName="id">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Name: {{oldItem.name}}</mat-label>
+            <input matInput formControlName="name" placeholder="New Name">
+            <mat-error *ngIf="updateForm.get('name')?.hasError('minlength') || updateForm.get('name')?.hasError('maxlength')">Name must be between 3 and 30 characters</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="updateForm.invalid">Update</button>
+    </form>
+</ng-container>
