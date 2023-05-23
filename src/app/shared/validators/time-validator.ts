@@ -15,7 +15,7 @@ export class TimeValidator {
             if (!control.value || !hours) {
                 return null;
             }
-            return control.value.hours() > hours ? { maxhour: control.value } : null;
+            return control.value.hours() > hours || control.value.hours() == hours && control.value.minutes() > 0 ? { maxhour: control.value } : null;
         }
     }
 

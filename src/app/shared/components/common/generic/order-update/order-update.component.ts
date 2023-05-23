@@ -1,21 +1,19 @@
 import { Component, Inject } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FixedWageEmployeeService } from 'src/app/core/services/features/models/table/fixed-wage-employee.service';
+import * as moment from 'moment';
+import { Observable, takeUntil } from 'rxjs';
+import { EmployeeService } from 'src/app/core/services/features/models/table/generic/employee.service';
 import { OrderService } from 'src/app/core/services/features/models/table/generic/order.service';
-import { HourlyWageOrderService } from 'src/app/core/services/features/models/table/hourly-wage-order.service';
 import { SnackbarCallerService } from 'src/app/core/services/snackbar-caller.service';
 import { FixedWageEmployee } from 'src/app/shared/models/table-models/fixed-wage-employee';
 import { FixedWageOrder } from 'src/app/shared/models/table-models/fixed-wage-order';
 import { HourlyWageEmployee } from 'src/app/shared/models/table-models/hourly-wage-employee';
 import { HourlyWageOrder } from 'src/app/shared/models/table-models/hourly-wage-order';
-import { UpdateComponent } from '../../update/update.component';
-import { Observable, takeUntil } from 'rxjs';
 import { TimeValidator } from 'src/app/shared/validators/time-validator';
-import * as moment from 'moment';
 import { DialogComponent } from '../../../dialog/dialog.component';
-import { EmailValidator, Validators } from '@angular/forms';
-import { EmployeeService } from 'src/app/core/services/features/models/table/generic/employee.service';
+import { UpdateComponent } from '../../update/update.component';
 
 @Component({
   selector: 'app-order-update',
@@ -81,6 +79,8 @@ export abstract class OrderUpdateComponent<
           this.updateOrderDateFilter(this.oldItem.employeeId as string);
         }
       });
+
+    super.ngOnInit();
   }
 
   protected override updateItem() {
@@ -232,7 +232,7 @@ export abstract class OrderUpdateComponent<
   }
 
   protected override patchValues() {
-    const orderDate = this.updateForm.controls['orderDate'].value
+    const orderDate = this.updateForm.controls['orderDate'].value;
     if (orderDate == null) {
       this.updateForm.patchValue({ orderDate: moment(this.oldItem.orderDate) });
     }

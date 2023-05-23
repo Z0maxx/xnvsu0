@@ -51,7 +51,7 @@ const routes: Routes = [
   },
   {
     path: 'stats',
-    loadChildren: () => import('./stats/stats.module').then((m) => m.StatsModule),
+    loadChildren: () => import('./features/stats/stats.module').then((m) => m.StatsModule),
     canMatch: [canMatchAdmin]
   }
 ];

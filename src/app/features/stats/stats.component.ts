@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { StatsService } from '../core/services/features/models/stats/stats.service';
-import { EventtypeService } from '../core/services/features/models/table/eventtype.service';
-import { JobService } from '../core/services/features/models/table/job.service';
-import { EmployeeAverageHours } from '../shared/models/stat-models/employee-average-hours';
-import { EmployeeOrdersCount } from '../shared/models/stat-models/employee-orders-count';
-import { IncomeFromJob } from '../shared/models/stat-models/income-from-job';
-import { IncomeFromOrder } from '../shared/models/stat-models/income-from-order';
-import { OrdersCount } from '../shared/models/stat-models/orders-count';
-import { Overview } from '../shared/models/stat-models/overview';
+import { StatsService } from 'src/app/core/services/features/models/stats/stats.service';
+import { EventtypeService } from 'src/app/core/services/features/models/table/eventtype.service';
+import { JobService } from 'src/app/core/services/features/models/table/job.service';
+import { EmployeeAverageHours } from 'src/app/shared/models/stat-models/employee-average-hours';
+import { EmployeeOrdersCount } from 'src/app/shared/models/stat-models/employee-orders-count';
+import { IncomeFromJob } from 'src/app/shared/models/stat-models/income-from-job';
+import { IncomeFromOrder } from 'src/app/shared/models/stat-models/income-from-order';
+import { OrdersCount } from 'src/app/shared/models/stat-models/orders-count';
+import { Overview } from 'src/app/shared/models/stat-models/overview';
 
 @Component({
   selector: 'app-stats',

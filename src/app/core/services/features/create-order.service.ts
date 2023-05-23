@@ -7,6 +7,7 @@ import { HourlyWageEmployee } from 'src/app/shared/models/table-models/hourly-wa
 import { HourlyWageOrder } from 'src/app/shared/models/table-models/hourly-wage-order';
 import { FixedWageOrderService } from './models/table/fixed-wage-order.service';
 import { HourlyWageOrderService } from './models/table/hourly-wage-order.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,8 @@ export class CreateOrderService {
   }
 
   private getOrderInfo(raw: Order, employeeId: string) {
+    raw.orderDate = new Date(moment(raw.orderDate).format('yyyy-MM-DDThh:mm:ss'));
+    raw.orderDate.setHours(raw.orderDate.getHours() - raw.orderDate.getTimezoneOffset() / 60)
     return {
       id: raw.id,
       orderDate: raw.orderDate,

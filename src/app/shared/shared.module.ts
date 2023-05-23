@@ -13,10 +13,7 @@ import { OrderUpdateComponent } from './components/common/generic/order-update/o
 @NgModule({
     declarations: [
         DialogComponent,
-        SnackbarComponent,
-        EmployeeCreateComponent,
-        EmployeeUpdateComponent,
-        OrderUpdateComponent
+        SnackbarComponent
     ],
     imports: [
         CommonModule,

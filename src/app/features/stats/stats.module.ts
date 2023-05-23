@@ -4,7 +4,6 @@ import { StatsRoutingModule } from './stats-routing.module';
 import { StatsComponent } from './stats.component';
 import { IncomeFromEventByJobsComponent } from './income-from-event-by-jobs/income-from-event-by-jobs.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { LoadingModule } from '../shared/components/loading/loading.module';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -18,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HourlyWageEmployeesAverageHoursComponent } from './hourly-wage-employees-average-hours/hourly-wage-employees-average-hours.component';
 import { HourlyWageOrdersOverviewComponent } from './hourly-wage-orders-overview/hourly-wage-orders-overview.component';
 import { OverallOverviewComponent } from './overall-overview/overall-overview.component';
+import { LoadingModule } from 'src/app/shared/components/loading/loading.module';
 
 @NgModule({
   declarations: [

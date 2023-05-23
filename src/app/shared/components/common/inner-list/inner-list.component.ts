@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CrudService } from 'src/app/core/services/crud.service';
 import { TableModel } from 'src/app/shared/models/table-models/base-models/table-model';
 import { BaseComponent } from '../base/base.component';

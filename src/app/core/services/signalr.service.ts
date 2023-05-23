@@ -7,19 +7,19 @@ import { SnackbarCallerService } from './snackbar-caller.service';
 })
 export class SignalrService {
   constructor(private snackbarCaller: SnackbarCallerService) { }
-  #hubConnection!: signalR.HubConnection;
+  _hubConnection!: signalR.HubConnection;
   get hubConnection() {
-    return this.#hubConnection;
+    return this._hubConnection;
   }
   startConnection() {
-    this.#hubConnection = new signalR.HubConnectionBuilder()
+    this._hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('http://localhost:14784/api/hub', {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
       .build();
 
-      this.#hubConnection
+      this._hubConnection
         .start()
         .catch(() => {
           this.snackbarCaller.failure('There was an error while trying to connect to the SignalR Hub')

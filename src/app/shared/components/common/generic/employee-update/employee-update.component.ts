@@ -42,6 +42,8 @@ export abstract class EmployeeUpdateComponent<T extends FixedWageEmployee | Hour
           this.snackbarCaller.alert(`Selected ${this.jobService.modelName} got deleted`);
         }
       });
+
+    super.ngOnInit();
   }
 
   protected override updateData() {

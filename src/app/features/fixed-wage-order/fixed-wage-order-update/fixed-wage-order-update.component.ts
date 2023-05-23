@@ -2,16 +2,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
-import { Observable, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { EventtypeService } from 'src/app/core/services/features/models/table/eventtype.service';
 import { FixedWageEmployeeService } from 'src/app/core/services/features/models/table/fixed-wage-employee.service';
 import { FixedWageOrderService } from 'src/app/core/services/features/models/table/fixed-wage-order.service';
 import { HourlyWageOrderService } from 'src/app/core/services/features/models/table/hourly-wage-order.service';
 import { SnackbarCallerService } from 'src/app/core/services/snackbar-caller.service';
 import { OrderUpdateComponent } from 'src/app/shared/components/common/generic/order-update/order-update.component';
-import { UpdateComponent } from 'src/app/shared/components/common/update/update.component';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { FixedWageEmployee } from 'src/app/shared/models/table-models/fixed-wage-employee';
 import { FixedWageOrder } from 'src/app/shared/models/table-models/fixed-wage-order';
 import { HourlyWageEmployee } from 'src/app/shared/models/table-models/hourly-wage-employee';
@@ -131,6 +128,8 @@ export class FixedWageOrderUpdateComponent extends OrderUpdateComponent<FixedWag
         order.eventTypeId = eventTypeId;
       }
     }
+
+    super.patchValues();
   }
 
   protected override resetForm() {
@@ -163,6 +162,6 @@ export class FixedWageOrderUpdateComponent extends OrderUpdateComponent<FixedWag
 
   override ngOnDestroy() {
     this.eventtypeService.unsubscribe();
-    this.ngOnDestroy();
+    super.ngOnDestroy();
   }
 }
