@@ -150,6 +150,7 @@ export class FixedWageOrderUpdateComponent extends OrderUpdateComponent<FixedWag
     if (this.oldItem.eventType == null) {
       if (!this.initCheck) {
         this.snackbarCaller.alert(`Original ${this.eventtypeService.modelName} got deleted`);
+        this.initCheck = true;
       }
       eventTypeIdControl.addValidators(Validators.required);
     }

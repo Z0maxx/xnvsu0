@@ -21,7 +21,7 @@
                 <ng-container *ngIf="eventtypeId">
                     <ng-container *ngIf="incomeFromEventByJobs$ | async as incomeFromEventByJobs; else loading">
                         <app-income-from-event-by-jobs [incomeFromJobs]="incomeFromEventByJobs"></app-income-from-event-by-jobs>
-                        <h2 *ngIf="incomeFromEventByJobs.length == 0">There are no Jobs for {{eventtypes[eventtypeId - 1].name}}</h2>
+                        <h2 *ngIf="incomeFromEventByJobs.length == 0">There are no Jobs for this Event type</h2>
                     </ng-container>
                 </ng-container>
             </ng-container>

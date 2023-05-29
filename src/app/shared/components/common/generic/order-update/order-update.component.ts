@@ -14,7 +14,6 @@ import { HourlyWageOrder } from 'src/app/shared/models/table-models/hourly-wage-
 import { TimeValidator } from 'src/app/shared/validators/time-validator';
 import { DialogComponent } from '../../../dialog/dialog.component';
 import { UpdateComponent } from '../../update/update.component';
-import { isJSDocThisTag } from 'typescript';
 
 @Component({
   selector: 'app-order-update',
