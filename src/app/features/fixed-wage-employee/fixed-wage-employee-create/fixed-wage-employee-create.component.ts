@@ -106,7 +106,7 @@ export class FixedWageEmployeeCreateComponent extends EmployeeCreateComponent<Fi
       )
     });
 
-    this.ngOnInit();
+    super.ngOnInit();
   }
 
   protected override resetForm() {

@@ -162,7 +162,7 @@ export class HourlyWageEmployeeCreateComponent extends EmployeeCreateComponent<H
         }
       });
 
-    this.ngOnInit();
+    super.ngOnInit();
   }
 
   protected override resetForm() {

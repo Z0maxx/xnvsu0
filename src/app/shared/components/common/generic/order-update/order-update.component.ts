@@ -101,7 +101,11 @@ export abstract class OrderUpdateComponent<
 
         if (this.ordersForCustomer.length == 1 || (!this.updateAllOrders && !this.updateOrders)) {
           if (!this.updateAllOrders) this.otherOrdersForCustomer = [];
-          this.service.update(this.updateForm.getRawValue())
+          let raw = this.updateForm.getRawValue();
+          const orderDate = new Date(moment(raw.orderDate).format('yyyy-MM-DDThh:mm:ss'));
+          orderDate.setHours(orderDate.getHours() - orderDate.getTimezoneOffset() / 60);
+          raw.orderDate = orderDate;
+          this.service.update(raw)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe({
               error: (err) => {
@@ -232,7 +236,7 @@ export abstract class OrderUpdateComponent<
   }
 
   protected override patchValues() {
-    const orderDate = this.updateForm.controls['orderDate'].value;
+    let orderDate = this.updateForm.controls['orderDate'].value;
     if (orderDate == null) {
       this.updateForm.patchValue({ orderDate: moment(this.oldItem.orderDate) });
     }
