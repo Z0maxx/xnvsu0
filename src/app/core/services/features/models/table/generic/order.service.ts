@@ -31,7 +31,8 @@ export abstract class OrderService<T extends FixedWageOrder | HourlyWageOrder, S
     });
 
     this.employeeService.deleted.subscribe((deleted) => {
-      if (deleted.deletedId != this.order.employeeId) {
+      if (this.order && deleted.deletedId != this.order.employeeId)
+      {
         this.availableDeletedChange$.next(deleted);
       }
     });
