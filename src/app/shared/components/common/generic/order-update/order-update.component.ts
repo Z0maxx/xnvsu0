@@ -14,6 +14,7 @@ import { HourlyWageOrder } from 'src/app/shared/models/table-models/hourly-wage-
 import { TimeValidator } from 'src/app/shared/validators/time-validator';
 import { DialogComponent } from '../../../dialog/dialog.component';
 import { UpdateComponent } from '../../update/update.component';
+import { isJSDocThisTag } from 'typescript';
 
 @Component({
   selector: 'app-order-update',
@@ -99,82 +100,77 @@ export abstract class OrderUpdateComponent<
         this.updating = true;
         this.patchValues();
 
-        if (this.ordersForCustomer.length == 1 || (!this.updateAllOrders && !this.updateOrders)) {
-          if (!this.updateAllOrders) this.otherOrdersForCustomer = [];
-          let raw = this.updateForm.getRawValue();
-          const orderDate = new Date(moment(raw.orderDate).format('yyyy-MM-DDThh:mm:ss'));
-          orderDate.setHours(orderDate.getHours() - orderDate.getTimezoneOffset() / 60);
-          raw.orderDate = orderDate;
-          this.service.update(raw)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe({
-              error: (err) => {
-                this.handleError(err);
-              },
-              complete: () => {
-                this.completeOrders();
-              }
-            });
-        }
-
-        else if (this.ordersForCustomer.length > 1 && (this.updateAllOrders || this.updateOrders)) {
-          if (this.updateOrders) this.otherOrdersForCustomer = [];
-          this.service.updateBulk(this.ordersForCustomer)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe({
-              error: (err) => {
-                this.handleError(err);
-              },
-              complete: () => {
-                this.completeOrders();
-              }
-            });
-        }
-
-        if (this.otherOrdersForCustomer.length == 1 && this.updateAllOrders) {
-          this.otherOrderService.update(this.otherOrdersForCustomer[0])
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe({
-              error: (err) => {
-                this.handleError(err);
-              },
-              complete: () => {
-                this.completeOtherOrders();
-              }
-            });
-        }
-
-        else if (this.otherOrdersForCustomer.length > 1 && this.updateAllOrders) {
-          this.otherOrderService.updateBulk(this.otherOrdersForCustomer)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe({
-              error: (err) => {
-                this.handleError(err);
-              },
-              complete: () => {
-                this.completeOtherOrders();
-              }
-            });
-        }
+        this.update();
       });
+  }
+
+  private update() {
+    if (this.ordersForCustomer.length == 1 || (!this.updateAllOrders && !this.updateOrders)) {
+      if (!this.updateAllOrders) this.otherOrdersForCustomer = [];
+      let raw = this.updateForm.getRawValue();
+      const orderDate = new Date(moment(raw.orderDate).format('yyyy-MM-DDThh:mm:ss'));
+      orderDate.setHours(orderDate.getHours() - orderDate.getTimezoneOffset() / 60);
+      raw.orderDate = orderDate;
+      this.service.update(raw)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe({
+          error: (err) => {
+            this.handleError(err);
+          },
+          complete: () => {
+            this.updateOther();
+          }
+        });
+    }
+
+    else if (this.ordersForCustomer.length > 1 && (this.updateAllOrders || this.updateOrders)) {
+      if (this.updateOrders) this.otherOrdersForCustomer = [];
+      this.service.updateBulk(this.ordersForCustomer)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe({
+          error: (err) => {
+            this.handleError(err);
+          },
+          complete: () => {
+            this.updateOther();
+          }
+        });
+    }
+  }
+
+  private updateOther() {
+    if (this.otherOrdersForCustomer.length == 1 && this.updateAllOrders) {
+      this.otherOrderService.update(this.otherOrdersForCustomer[0])
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe({
+          error: (err) => {
+            this.handleError(err);
+          },
+          complete: () => {
+            this.complete();
+          }
+        });
+    }
+
+    else if (this.otherOrdersForCustomer.length > 1 && this.updateAllOrders) {
+      this.otherOrderService.updateBulk(this.otherOrdersForCustomer)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe({
+          error: (err) => {
+            this.handleError(err);
+          },
+          complete: () => {
+            this.complete();
+          }
+        });
+    }
   }
 
   private handleError(err: Error) {
     this.snackbarCaller.failure(err.message);
   }
 
-  private completeOrders() {
-    this.ordersForCustomer = [];
-    this.complete();
-  }
-
-  private completeOtherOrders() {
-    this.otherOrdersForCustomer = [];
-    this.complete();
-  }
-
   private complete() {
-    if (this.ordersForCustomer.length != 0 || this.otherOrdersForCustomer.length != 0) return;
     this.snackbarCaller.success(`Updated ${this.service.modelName} succesfully`);
     this.resetForm();
     this.end();
@@ -216,7 +212,7 @@ export abstract class OrderUpdateComponent<
       this.employeeService.get(employeeId)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((employee) => {
-        if (employee.id != '-1') {
+        if (employee.id != '-1' && employee.orders) {
           this.orderDateFilter = (d: Date | null): boolean => {
             const dates = employee.orders.map(o => moment(o.orderDate).format('YYYY-MM-dd'));
             const date = moment(d).format('YYYY-MM-dd');
@@ -241,6 +237,8 @@ export abstract class OrderUpdateComponent<
       this.updateForm.patchValue({ orderDate: moment(this.oldItem.orderDate) });
     }
     else {
+      orderDate = new Date(moment(orderDate).format('yyyy-MM-DDThh:mm:ss'));
+      orderDate.setHours(orderDate.getHours() - orderDate.getTimezoneOffset() / 60);
       this.updateAllOrders = true;
       for (const order of this.ordersForCustomer) {
         order.orderDate = orderDate;
