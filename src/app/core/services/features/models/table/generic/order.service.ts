@@ -39,7 +39,7 @@ export abstract class OrderService<T extends FixedWageOrder | HourlyWageOrder, S
 
     this.updated.subscribe((updated) => {
       const updatedItem = updated.updatedItem;
-      if (updatedItem.id != this.currentId) {
+      if (this.order && updatedItem.id != this.currentId) {
         if (
           updatedItem.orderDate == this.order.orderDate &&
           updatedItem.firstName == this.order.firstName &&

@@ -37,8 +37,10 @@ export abstract class UpdateComponent<T extends TableModel> extends BaseComponen
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((data: T) => {
         if (!data.id) this.router.navigate([this.modelRoute], { relativeTo: this.route.parent?.parent });
-        this.oldItem = data;
-        this.updateData();
+        else {
+          this.oldItem = data;
+          this.updateData();
+        }
       });
   }
 
