@@ -44,9 +44,7 @@ export abstract class EmployeeService<T extends FixedWageEmployee | HourlyWageEm
     });
 
     this.deleted.subscribe((deleted) => {
-      if (deleted.deletedItem.jobId == this.jobId) {
-        this.availableDeletedChange$.next(deleted);
-      }
+      this.availableDeletedChange$.next(deleted);
     });
   }
 
