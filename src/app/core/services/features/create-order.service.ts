@@ -28,11 +28,11 @@ export class CreateOrderService {
   }
 
   private getOrderInfo(raw: Order, employeeId: string) {
-    raw.orderDate = new Date(moment(raw.orderDate).format('yyyy-MM-DDThh:mm:ss'));
-    raw.orderDate.setHours(raw.orderDate.getHours() - raw.orderDate.getTimezoneOffset() / 60)
+    const date = new Date(moment(raw.orderDate).format('yyyy-MM-DDThh:mm:ss'));
+    date.setHours(date.getHours() - date.getTimezoneOffset() / 60)
     return {
       id: raw.id,
-      orderDate: raw.orderDate,
+      orderDate: date,
       firstName: raw.firstName,
       lastName: raw.lastName,
       emailAddress: raw.emailAddress,

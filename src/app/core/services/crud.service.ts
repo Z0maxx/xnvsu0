@@ -222,7 +222,6 @@ export abstract class CrudService<T extends TableModel> implements LiveDB {
   }
 
   create(tableModel: T) {
-    console.log(tableModel)
     return this.http.post(`/api/${this.model}`, tableModel).pipe(
       catchError(err => {
         return throwError(() => new Error(err.error?.msg ?? this.defaultError));
