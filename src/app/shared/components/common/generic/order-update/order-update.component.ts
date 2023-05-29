@@ -164,6 +164,8 @@ export abstract class OrderUpdateComponent<
           }
         });
     }
+
+    else this.complete();
   }
 
   private handleError(err: Error) {

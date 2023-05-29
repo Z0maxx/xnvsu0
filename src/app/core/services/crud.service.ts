@@ -56,11 +56,14 @@ export abstract class CrudService<T extends TableModel> implements LiveDB {
     });
 
     this.hubService.hubConnection.on(`${this.model}Deleted`, (item) => {
+      console.log(this._sendInfo)
+      console.log(this.currentId)
+      console.log(item.id)
+      console.log(this.currentId == item.id)
       if (this._sendInfo) {
         this.deletedChange$.next({ deletedId: item.id, deletedItem: item });
         if (this.currentId == item.id) {
           this.deletedChangeForId$.next({ deletedId: item.id, deletedItem: item });
-          this.deletedChangeForId$.complete();
         }
       }
     });
