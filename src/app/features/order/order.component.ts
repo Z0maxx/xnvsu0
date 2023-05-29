@@ -483,7 +483,10 @@ export class OrderComponent implements OnInit, OnDestroy {
   protected createOrder() {
     this.creating = true;
     const raw = this.createForm.getRawValue();
+    this.createFixedOrders(raw)
+  }
 
+  protected createFixedOrders(raw: any) {
     this.service.createFixedOrders(this.addedFixedEmployees, raw)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe({
@@ -492,9 +495,12 @@ export class OrderComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.completeFixedOrder();
+          this.createHourlyOrders(raw);
         }
       });
+  }
 
+  protected createHourlyOrders(raw: any) {
     this.service.createHourlyOrders(this.addedHourlyEmployees, this.hoursList, raw)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe({
