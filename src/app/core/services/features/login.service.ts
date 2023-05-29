@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  constructor() { }
+  constructor(private router: Router) { }
 
   userId = '';
   
@@ -22,5 +23,6 @@ export class LoginService {
 
   logout() {
     this.userId = '';
+    this.router.navigate(['login']);
   }
 }
